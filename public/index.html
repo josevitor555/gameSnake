@@ -11,21 +11,28 @@
 
     <link rel="website icon" href="./images/maca-removebg-preview.png">
 
-    <title> SnakeAI </title>
+    <title> SnakeGame </title>
 </head>
 <body>
     <div id="game">
-        <!-- Game content will be dynamically added here -->
+        <div id="score">Current Score: 0</div>
     </div>
-    <div id="menu">
+    <div id="menu" class="menu">
         <div id="menu-content">
-            <h1> Game Over </h1>
+            <h1>Game Over</h1>
             <button id="restart-button">Restart Game</button>
             <button id="scores-button">View Score</button>
             <button id="settings-button">Settings</button>
         </div>
     </div>
-    <div id="score">Current Score: 0</div>    
+    <div id="initial-menu" class="menu">
+        <div id="menu-content">
+            <h1>Game Paused</h1>
+            <button id="resume-button">Resume Game</button>
+            <button id="scores-button">View Score</button>
+            <button id="settings-button">Settings</button>
+        </div>
+    </div>   
 
     <script src="./js/scirpt.js"></script>
 </body>

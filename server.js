@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
