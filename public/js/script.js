@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const game = document.getElementById('game');
     const scoreDisplay = document.getElementById('score');
     const menu = document.getElementById('menu');
+    const credits = document.getElementById('credits');
     const restartButton = document.getElementById('restart-button');
+    const creditsButton = document.getElementById('credits-button');
+    const backButton = document.getElementById('back-button');
     const gameWidth = game.offsetWidth;
     const gameHeight = game.offsetHeight;
     const snakeSize = 20;
@@ -40,11 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
             game.appendChild(wallElement);
         });
 
-        snake.forEach(segment => {
+        snake.forEach((segment, index) => {
             const snakeElement = document.createElement('div');
             snakeElement.style.left = `${segment.x}px`;
             snakeElement.style.top = `${segment.y}px`;
-            snakeElement.classList.add('snake');
+            if (index === 0) {
+                snakeElement.classList.add('snake-head');
+            } else if (index === snake.length - 1) {
+                snakeElement.classList.add('snake-tail');
+            } else {
+                snakeElement.classList.add('snake-body');
+            }
             game.appendChild(snakeElement);
         });
     }
@@ -136,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScoreDisplay();
         generateFoodPosition();
         menu.style.display = 'none';
+        credits.style.display = 'none';
         gameInterval = setInterval(updateGame, 1000 / fps);
     }
 
@@ -180,6 +190,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 break;
         }
     }
+
+    creditsButton.addEventListener('click', () => {
+        menu.style.display = 'none';
+        credits.style.display = 'flex';
+    });
+
+    backButton.addEventListener('click', () => {
+        credits.style.display = 'none';
+        menu.style.display = 'flex';
+    });
 
     restartButton.addEventListener('click', resetGame);
     document.addEventListener('keydown', changeDirection);
