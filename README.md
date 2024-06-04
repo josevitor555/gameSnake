@@ -4,5 +4,7 @@
 
 ##
 
-> The game "Game Snake" is still in the development phase, the game has a server made in express.
+### Note
+> The game is still in the development phase, these are your first impressions.
+### Resources
 > The game was made with the help of artificial intelligence
