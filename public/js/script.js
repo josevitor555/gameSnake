@@ -2,10 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const game = document.getElementById('game');
     const scoreDisplay = document.getElementById('score');
     const menu = document.getElementById('menu');
-    const credits = document.getElementById('credits');
     const restartButton = document.getElementById('restart-button');
+    const scoresButton = document.getElementById('scores-button');
     const creditsButton = document.getElementById('credits-button');
-    const backButton = document.getElementById('back-button');
+    const backButtonScores = document.getElementById('back-button-scores');
+    const backButtonCredits = document.getElementById('back-button-credits');
+    const clearButton = document.getElementById('clear-button');
+    const scoresMenu = document.getElementById('scores-menu');
+    const creditsMenu = document.getElementById('credits-menu');
+    const scoresList = document.getElementById('scores-list');
     const gameWidth = game.offsetWidth;
     const gameHeight = game.offsetHeight;
     const snakeSize = 20;
@@ -18,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let score = 0;
     let gameInterval;
     let walls = [];
+    let startTime;
+    let elapsedTime;
+    let gameStarted = false;
 
     function createWalls() {
         for (let i = 0; i < gameWidth; i += wallSize) {
@@ -135,7 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function endGame() {
         clearInterval(gameInterval);
+        elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Calculate elapsed time in seconds
+        saveScore(score, elapsedTime);
         menu.style.display = 'flex';
+        gameStarted = false; // Reset the game started flag
     }
 
     function resetGame() {
@@ -145,7 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateScoreDisplay();
         generateFoodPosition();
         menu.style.display = 'none';
-        credits.style.display = 'none';
+        scoresMenu.style.display = 'none';
+        creditsMenu.style.display = 'none';
+        gameStarted = false; // Reset the game started flag
         gameInterval = setInterval(updateGame, 1000 / fps);
     }
 
@@ -159,6 +172,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function changeDirection(event) {
+        if (!gameStarted) {
+            startTime = Date.now();
+            gameStarted = true;
+        }
+
         switch (event.key) {
             case 'w':
             case 'W':
@@ -191,17 +209,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    creditsButton.addEventListener('click', () => {
-        menu.style.display = 'none';
-        credits.style.display = 'flex';
-    });
+    function saveScore(score, duration) {
+        const id = generateId();
+        const newScore = { id, score, duration };
+        let scores = JSON.parse(localStorage.getItem('scores')) || [];
+        scores.push(newScore);
+        localStorage.setItem('scores', JSON.stringify(scores));
+        displayScores();
+    }
 
-    backButton.addEventListener('click', () => {
-        credits.style.display = 'none';
-        menu.style.display = 'flex';
-    });
+    function generateId() {
+        return Math.random().toString(36).substr(2, 9);
+    }
+
+    function displayScores() {
+        scoresList.innerHTML = '';
+        let scores = JSON.parse(localStorage.getItem('scores')) || [];
+        if (scores.length === 0) {
+            const emptyMessage = document.createElement('li');
+            emptyMessage.textContent = 'Table Empty';
+            scoresList.appendChild(emptyMessage);
+        } else {
+            scores.forEach(score => {
+                const scoreItem = document.createElement('li');
+                scoreItem.innerHTML = `
+                    <span>ID: ${score.id}</span>
+                    <span>Time: ${score.duration}s</span>
+                    <span>Score: ${score.score}</span>
+                `;
+                scoresList.appendChild(scoreItem);
+            });
+        }
+    }
+
+    function clearScores() {
+        localStorage.removeItem('scores');
+        displayScores();
+    }
 
     restartButton.addEventListener('click', resetGame);
+    scoresButton.addEventListener('click', () => {
+        displayScores();
+        scoresMenu.style.display = 'flex';
+    });
+    creditsButton.addEventListener('click', () => {
+        creditsMenu.style.display = 'flex';
+    });
+    backButtonScores.addEventListener('click', () => {
+        scoresMenu.style.display = 'none';
+    });
+    backButtonCredits.addEventListener('click', () => {
+        creditsMenu.style.display = 'none';
+    });
+    clearButton.addEventListener('click', clearScores);
+
     document.addEventListener('keydown', changeDirection);
 
     createWalls();

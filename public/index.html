@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/root.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-
     <link rel="website icon" href="./images/maca-removebg-preview.png">
-
-    <title> SnakeGame </title>
+    <title>SnakeGame</title>
 </head>
 <body>
     <div id="game">
         <div id="score"> Current Score: 0 </div>
     </div>
-
     <div id="menu" class="menu">
         <div id="menu-content">
             <h1> Game Over </h1>
             <button id="restart-button"> Restart Game </button>
-            <button id="scores-button"> View Score </button>
+            <button id="scores-button"> View Scores </button>
             <button id="credits-button"> Credits </button>
         </div>
-    </div>  
-    
-    <div id="credits" class="menu">
-        <div id="credits-content">
+    </div>
+    <div id="scores-menu" class="menu">
+        <div id="menu-content">
+            <h1> High Scores </h1>
+            <ul id="scores-list"> </ul>
+            <button id="back-button-scores"> Back to Menu </button>
+            <button id="clear-button"> Clear Table </button>
+        </div>
+    </div>
+    <div id="credits-menu" class="menu">
+        <div id="menu-content">
             <h1> Credits </h1>
-            <p> Programmers: José Vitor & ChatGPT </p>
+            <p> Programmers: José Vitor & ChatGpt </p>
             <p> Artist: Ian Max </p>
-            <button id="back-button"> Back to menu </button>
+            <button id="back-button-credits"> Back to Menu </button>
         </div>
     </div>
     <script src="./js/script.js"></script>
