@@ -8,4 +8,3 @@
 > The game is still in the development phase, these are your first impressions.
 ### Resources
 > The game was made with the help of artificial intelligence
-### Next updates
