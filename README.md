@@ -9,5 +9,3 @@
 ### Resources
 > The game was made with the help of artificial intelligence
 ### Next updates
-> Create a points accumulation system <br>
-> Upgrade the snake parts such as head, body and tail.
