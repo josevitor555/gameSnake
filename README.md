@@ -1,4 +1,4 @@
-# Game Demo
+# SquareSnaker
 
 ![squareSnaker](https://github.com/josevitor555/gameSnake/assets/127617992/920b8070-9f61-471f-846a-bbca235e367b)
 
