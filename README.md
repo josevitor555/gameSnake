@@ -1,6 +1,6 @@
 # Game Demo
 
-![Captura de tela 2024-06-04 162734](https://github.com/josevitor555/gameSnake/assets/127617992/bbf733ad-ddf7-43ed-8fdc-f673757b2583)
+![squareSnaker](https://github.com/josevitor555/gameSnake/assets/127617992/920b8070-9f61-471f-846a-bbca235e367b)
 
 ##
 
