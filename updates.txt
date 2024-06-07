@@ -1,0 +1,5 @@
+Próximos passos:
+- Concertar a cobrinha como cabeça, corpo e calda (porque são imagens png).
+- Randomidade das gramas no mapa.
+- Pedir nome ao usuário (Jogador)
+///////////////////////////////////
