@@ -18,16 +18,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const fps = 10;
 
   let food = { x: 0, y: 0 };
-  let snake = [{x: Math.floor(gameWidth / 2 / snakeSize) * snakeSize, y: Math.floor(gameHeight / 2 / snakeSize) * snakeSize,}];
+  let snake = [
+    {
+      x: Math.floor(gameWidth / 4 / snakeSize) * snakeSize,
+      y: Math.floor(gameHeight / 4 / snakeSize) * snakeSize,
+    }
+  ];
   let direction = { x: 0, y: 0 };
   let score = 0;
   let gameInterval;
-  let treeInterval;
   let walls = [];
   let startTime;
   let elapsedTime;
   let gameStarted = false;
-  const tree = { x: 100, y: 100, width: 100, height: 118 };
+  const tree = {
+    x: (gameWidth - 100) / 2,
+    y: (gameHeight - 118) / 2,
+    width: 100,
+    height: 118
+  };
   const treeBarrier = {
     x1: tree.x,
     y1: tree.y,
@@ -101,8 +110,16 @@ document.addEventListener("DOMContentLoaded", () => {
       y: snake[0].y + direction.y,
     };
 
-    if (head.x < wallSize || head.x >= gameWidth - wallSize || head.y < wallSize || head.y >= gameHeight - wallSize ||
-      (head.x >= treeBarrier.x1 && head.x < treeBarrier.x2 && head.y >= treeBarrier.y1 && head.y < treeBarrier.y2)) {
+    if (
+      head.x < wallSize ||
+      head.x >= gameWidth - wallSize ||
+      head.y < wallSize ||
+      head.y >= gameHeight - wallSize ||
+      (head.x >= treeBarrier.x1 &&
+        head.x < treeBarrier.x2 &&
+        head.y >= treeBarrier.y1 &&
+        head.y < treeBarrier.y2)
+    ) {
       endGame();
       return;
     }
@@ -147,44 +164,16 @@ document.addEventListener("DOMContentLoaded", () => {
         minY;
 
       position = { x: randomX, y: randomY };
-    } while (isWall(position) || isSnake(position) || (position.x >= treeBarrier.x1 && position.x < treeBarrier.x2 && position.y >= treeBarrier.y1 && position.y < treeBarrier.y2));
+    } while (
+      isWall(position) ||
+      isSnake(position) ||
+      (position.x >= treeBarrier.x1 &&
+        position.x < treeBarrier.x2 &&
+        position.y >= treeBarrier.y1 &&
+        position.y < treeBarrier.y2)
+    );
     food = position;
   }
-
-  function generateTreePosition() {
-    let position;
-    do {
-      const minX = wallSize;
-      const maxX = gameWidth - wallSize - tree.width;
-      const minY = wallSize;
-      const maxY = gameHeight - wallSize - tree.height;
-  
-      const randomX = Math.floor(Math.random() * ((maxX - minX) / snakeSize + 1)) * snakeSize + minX;
-      const randomY = Math.floor(Math.random() * ((maxY - minY) / snakeSize + 1)) * snakeSize + minY;
-  
-      position = { x: randomX, y: randomY };
-    } while (
-      isWall(position) || 
-      isSnake(position) || 
-      position.x < wallSize || 
-      position.x + tree.width > gameWidth - wallSize || 
-      position.y < wallSize || 
-      position.y + tree.height > gameHeight - wallSize || 
-      (position.x >= food.x && position.x < food.x + snakeSize && position.y >= food.y && position.y < food.y + snakeSize)
-    );
-    
-    tree.x = position.x;
-    tree.y = position.y;
-    treeBarrier.x1 = tree.x;
-    treeBarrier.y1 = tree.y;
-    treeBarrier.x2 = tree.x + tree.width;
-    treeBarrier.y2 = tree.y + tree.height;
-  
-    // Check if tree collides with snake's path
-    if (snake[0].x >= treeBarrier.x1 && snake[0].x < treeBarrier.x2 && snake[0].y >= treeBarrier.y1 && snake[0].y < treeBarrier.y2) {
-      endGame();
-    }
-  }  
 
   function isWall(position) {
     return walls.some((wall) => wall.x === position.x && wall.y === position.y);
@@ -207,7 +196,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function endGame() {
     clearInterval(gameInterval);
-    clearInterval(treeInterval);
     elapsedTime = Math.floor((Date.now() - startTime) / 1000); // Calculate elapsed time in seconds
     saveScore(score, elapsedTime);
     menu.style.display = "flex";
@@ -215,23 +203,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resetGame() {
+    // Ensure the snake starts in a different position than the tree
     snake = [
       {
-        x: Math.floor(gameWidth / 2 / snakeSize) * snakeSize,
-        y: Math.floor(gameHeight / 2 / snakeSize) * snakeSize,
+        x: Math.floor(gameWidth / 4 / snakeSize) * snakeSize,
+        y: Math.floor(gameHeight / 4 / snakeSize) * snakeSize,
       },
     ];
     direction = { x: 0, y: 0 };
     score = 0;
+
     updateScoreDisplay();
     generateFoodPosition();
-    generateTreePosition();
+
     menu.style.display = "none";
     scoresMenu.style.display = "none";
     creditsMenu.style.display = "none";
     gameStarted = false; // Reset the game started flag
     gameInterval = setInterval(updateGame, 1000 / fps);
-    treeInterval = setInterval(generateTreePosition, 10000); // Move tree every 10 seconds
   }
 
   function updateScore() {
@@ -346,5 +335,4 @@ document.addEventListener("DOMContentLoaded", () => {
   createWalls();
   generateFoodPosition();
   gameInterval = setInterval(updateGame, 1000 / fps);
-  treeInterval = setInterval(generateTreePosition, 10000); // Move tree every 10 seconds
 });
